@@ -1,0 +1,84 @@
+{% extends 'rolodex_app/layout.html' %} {% block content %}
+
+<div class="row">
+  <h3>Rolodex App</h3>
+  <div class="col-sm-4">
+    <h3>Add Contact</h3>
+    <form method="POST">
+      {% csrf_token %} 
+      <table>
+      {{form.as_table}}
+      </table>
+      <button class="btn btn-primary btn-sm mx-1" type="submit">
+        Add Contact
+      </button>
+    </form>
+
+    <hr />
+
+    <form method="POST" action="{% url 'add_random'%}">
+      {% csrf_token %}
+      <button class="btn btn-primary btn-sm mx-1" type="submit">
+        Add Random Contact
+      </button>
+    </form>
+  </div>
+
+  <div class="col-sm-8">
+    <div class="row">
+      <h3>List of Contacts</h3>
+      <form action="{% url 'search' %}" method="get">
+        <input name="q" type="text" placeholder="Enter name..." />
+        <button class="btn btn-primary btn-sm mx-1" type="submit">Search Rolodex
+        </button>
+      </form>
+    </div>
+
+    <div class="row">
+      {% for contact in contact_list %}
+      <div class="col-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{contact.name}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">
+              {{contact.email|truncatechars:20}}
+            </h6>
+
+            <div class="btn-toolbar">
+              <form method="GET" action="{% url 'show_page' contact.id %}">
+                
+                <button type="submit" class="btn btn-primary btn-sm mx-1">
+                  View
+                </button>
+              </form>
+
+              <form
+                method="POST"
+                action="{% url 'show_page' contact.id %}"
+              >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-sm mx-1">
+                  Edit
+                </button>
+              </form>
+
+              <form
+                method="POST"
+                action="{% url 'show_page' contact.id %}?delete=true"
+              >
+                
+                <button type="submit" class="btn btn-danger btn-sm mx-1">
+                  Delete
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% endfor%}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,71 @@
+{% extends 'rolodex_app/layout.html' %} {% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <h3>Contact Details</h3>
+
+      <table class="table">
+        <tbody>
+          <tr>
+            <th scope="row">Name</th>
+            <td>{{contact.name}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Gender</th>
+            <td>{{contact.gender|capfirst}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Race</th>
+            <td>{{contact.race}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Birthday</th>
+            <td>{{contact.birthday}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Street</th>
+            <td>{{contact.street}}</td>
+          </tr>
+          <tr>
+            <th scope="row">City, State, Zip</th>
+            <td>{{contact.city}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Email</th>
+            <td>{{contact.email}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Phone</th>
+            <td>{{contact.phone_number}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Mobile</th>
+            <td>{{contact.mobile_number}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-sm-6">
+      {% if form%}
+        <h3>Edit Contact</h3>
+      <div>
+        <form 
+        method="POST"
+        action="{% url 'show_page' contact.id %}?edit=true"
+        >
+          {% csrf_token %} 
+          <table>
+          {{form.as_table}}
+          </table>
+          <button class="btn btn-primary btn-sm mx-1" type="submit">Edit Contact</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {% endif%}
+</div>
+
+{% endblock content %}
